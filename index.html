@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title> Design With Rahaf </title>
+  <link rel="stylesheet" href="style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+  <header>
+    <div class="logo">Rahaf EL-Deeb<span>.</span></div>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#work">Work</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section id="home" class="hero">
+    <div class="particles">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <div class="hero-content">
+      <span class="hero-tag">✨ Creative Graphic Designer</span>
+      <h1>Turning Ideas Into <span>Visual Stories</span></h1>
+      <p>Helping brands stand out through modern branding, social media designs, and creative visual experiences.</p>
+      <div class="hero-buttons">
+        <a href="#work" class="hero-btn primary">View Portfolio</a>
+        <a href="#contact" class="hero-btn secondary">Let's Talk</a>
+      </div>
+    </div>
+
+    <div class="hero-image">
+      <img src="rahaf.jpg" alt="Rahaf">
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="about">
+    <div class="about-left">
+      <span class="section-tag">ABOUT ME</span>
+      <h2>Designing Experiences<br>That Inspire.</h2>
+      <p>I'm Rahaf, a passionate graphic designer specializing in branding, social media content, and visual identity systems. I transform ideas into memorable visual experiences that help brands connect with people.</p>
+      <div class="about-buttons">
+        <a href="#work" class="primary-btn">View Projects</a>
+        <a href="#contact" class="secondary-btn">Contact Me</a>
+      </div>
+    </div>
+
+    <div class="about-right">
+      <div class="glass-card"><h3>50+</h3><p>Projects Completed</p></div>
+      <div class="glass-card"><h3>20+</h3><p>Happy Clients</p></div>
+      <div class="glass-card"><h3>3+</h3><p>Years Experience</p></div>
+      <div class="glass-card"><h3>100%</h3><p>Creative Focus</p></div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills" class="skills">
+    <div class="skills-header">
+      <span>MY SKILLS</span>
+      <h2>What I Do Best</h2>
+      <p>Creating visual experiences that help brands grow and stand out.</p>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-card"><h3>🎨 Branding</h3><p>Building strong and memorable brand identities.</p></div>
+      <div class="skill-card"><h3>📱 Social Media</h3><p>Modern social media designs and campaigns.</p></div>
+      <div class="skill-card"><h3>✨ Logo Design</h3><p>Professional logos with unique concepts.</p></div>
+      <div class="skill-card"><h3>🖼️ Posters</h3><p>Creative posters and advertising materials.</p></div>
+      <div class="skill-card"><h3>🎯 Visual Identity</h3><p>Complete visual systems for businesses.</p></div>
+      <div class="skill-card"><h3>🚀 Creative Direction</h3><p>Turning ideas into impactful visual stories.</p></div>
+    </div>
+  </section>
+
+  <!-- WORK -->
+  <section id="work" class="section dark">
+    <h2>My Projects</h2>
+    <div class="portfolio-grid">
+      
+      <!-- Project 1 -->
+      <div class="portfolio-item" onclick="openGallery(0)">
+        <img src="images/project1/cover.jpeg" alt="Project 1">
+        <div class="overlay">
+          <h3>Project 1</h3>
+          <p class="project-count">5 designs</p>
+        </div>
+      </div>
+
+      <!-- Project 2 -->
+      <div class="portfolio-item" onclick="openGallery(1)">
+        <img src="images/project2/cover.jpeg" alt="Project 2">
+        <div class="overlay">
+          <h3>Project 2</h3>
+          <p class="project-count">4 designs</p>
+        </div>
+      </div>
+
+      <!-- Project 3 -->
+      <div class="portfolio-item" onclick="openGallery(2)">
+        <img src="images/project3/cover.jpeg" alt="Project 3">
+        <div class="overlay">
+          <h3>Project 3</h3>
+          <p class="project-count">6 designs</p>
+        </div>
+      </div>
+
+      <!-- Project 4 -->
+      <div class="portfolio-item" onclick="openGallery(3)">
+        <img src="images/project4/cover.webp" alt="Project 4">
+        <div class="overlay">
+          <h3>Project 4</h3>
+          <p class="project-count">3 designs</p>
+        </div>
+      </div>
+
+      <!-- Project 5 -->
+      <div class="portfolio-item" onclick="openGallery(4)">
+        <img src="images/project5/cover.webp" alt="Project 5">
+        <div class="overlay">
+          <h3>Project 5</h3>
+          <p class="project-count">5 designs</p>
+        </div>
+      </div>
+
+      <!-- Project 6 -->
+      <div class="portfolio-item" onclick="openGallery(5)">
+        <img src="images/project6/cover.jpg" alt="Project 6">
+        <div class="overlay">
+          <h3>Project 6</h3>
+          <p class="project-count">4 designs</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- GALLERY LIGHTBOX -->
+  <div id="gallery-modal" class="gallery-modal">
+    <div class="gallery-container">
+      <button class="gallery-close" onclick="closeGallery()">&times;</button>
+      <button class="gallery-prev" onclick="prevImage()">❮</button>
+      
+      <div class="gallery-content">
+        <img id="gallery-image" src="" alt="Gallery Image">
+        <div class="gallery-info">
+          <span id="image-counter">1 / 5</span>
+        </div>
+      </div>
+
+      <button class="gallery-next" onclick="nextImage()">❯</button>
+    </div>
+  </div>
+
+  <!-- CONTACT / SOCIAL MEDIA -->
+  <section id="contact" class="contact-section">
+    <span class="section-tag">FIND ME ON</span>
+    <h2>Let's Connect</h2>
+    <p>Follow my work and stay updated on latest projects.</p>
+
+    <div class="social-buttons">
+
+      <a href="https://instagram.com/design.with.rahaf" target="_blank" class="social-btn btn-instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+          <circle cx="12" cy="12" r="4"/>
+          <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+        </svg>
+        Instagram
+      </a>
+
+      <a href="https://tiktok.com/@design.with.rahaf" target="_blank" class="social-btn btn-tiktok">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.76a4.85 4.85 0 0 1-1.01-.07z"/>
+        </svg>
+        TikTok
+      </a>
+
+      <a href="https://youtube.com/@design.with.rahaf" target="_blank" class="social-btn btn-youtube">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+        </svg>
+        YouTube
+      </a>
+
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2026 Rahaf Portfolio</p>
+  </footer>
+
+  <script src="script.js"></script>
+  <div class="cursor-glow"></div>
+</body>
+</html>

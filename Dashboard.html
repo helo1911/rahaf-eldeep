@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rahaf Portfolio - Admin Dashboard</title>
+  <link rel="stylesheet" href="Dashboard.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+  <script>
+    // ======= PASSWORD PROTECTION =======
+    const correctPassword = "rahaf159"; // غيري الباسورد
+    const passwordAttempt = prompt("🔐 Enter Admin Password:");
+    
+    if(passwordAttempt !== correctPassword) {
+      alert("❌ Wrong password! Access denied.");
+      window.location.href = "index.html";
+    }
+  </script>
+
+  <div class="dashboard-container">
+  
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2>📊 Dashboard</h2>
+      </div>
+      <nav class="sidebar-nav">
+        <button class="nav-btn active" onclick="showTab('projects')">
+          🎨 Projects
+        </button>
+        <button class="nav-btn" onclick="showTab('about')">
+          👤 About
+        </button>
+        <button class="nav-btn" onclick="showTab('skills')">
+          ⚡ Skills
+        </button>
+        <button class="nav-btn" onclick="showTab('settings')">
+          ⚙️ Settings
+        </button>
+      </nav>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+      <!-- HEADER -->
+      <header class="dashboard-header">
+        <h1>Portfolio Management</h1>
+        <div class="header-actions">
+          <a href="index.html" class="view-btn">👁️ View Portfolio</a>
+          <button class="logout-btn" onclick="exportData()">💾 Export Data</button>
+        </div>
+      </header>
+
+      <!-- PROJECTS TAB -->
+      <section id="projects-tab" class="tab-content active">
+        <div class="section-header">
+          <h2>My Projects</h2>
+          <button class="add-btn" onclick="openProjectModal()">+ Add Project</button>
+        </div>
+
+        <div class="projects-list">
+          <div id="projects-container"></div>
+        </div>
+      </section>
+
+      <!-- ABOUT TAB -->
+      <section id="about-tab" class="tab-content">
+        <div class="section-header">
+          <h2>About Section</h2>
+        </div>
+        <form class="form-grid" onsubmit="saveAbout(event)">
+          <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" id="aboutName" placeholder="Your Name" required>
+          </div>
+          <div class="form-group">
+            <label>Bio</label>
+            <textarea id="aboutBio" placeholder="Write about yourself..." rows="4" required></textarea>
+          </div>
+          <div class="form-group">
+            <label>Years Experience</label>
+            <input type="number" id="experienceYears" placeholder="3" required>
+          </div>
+          <div class="form-group">
+            <label>Projects Completed</label>
+            <input type="number" id="projectsCount" placeholder="50" required>
+          </div>
+          <div class="form-group">
+            <label>Happy Clients</label>
+            <input type="number" id="clientsCount" placeholder="20" required>
+          </div>
+          <button type="submit" class="save-btn">💾 Save Changes</button>
+        </form>
+      </section>
+
+      <!-- SKILLS TAB -->
+      <section id="skills-tab" class="tab-content">
+        <div class="section-header">
+          <h2>Skills</h2>
+          <button class="add-btn" onclick="openSkillModal()">+ Add Skill</button>
+        </div>
+        <div class="skills-list" id="skills-container"></div>
+      </section>
+
+      <!-- SETTINGS TAB -->
+      <section id="settings-tab" class="tab-content">
+        <div class="section-header">
+          <h2>Settings</h2>
+        </div>
+        <div class="settings-grid">
+          <div class="setting-card">
+            <h3>🔗 Social Links</h3>
+            <form class="form-grid" onsubmit="saveSocialLinks(event)">
+              <div class="form-group">
+                <label>Instagram URL</label>
+                <input type="url" id="instagramUrl" placeholder="https://instagram.com/...">
+              </div>
+              <div class="form-group">
+                <label>TikTok URL</label>
+                <input type="url" id="tiktokUrl" placeholder="https://tiktok.com/@...">
+              </div>
+              <div class="form-group">
+                <label>YouTube URL</label>
+                <input type="url" id="youtubeUrl" placeholder="https://youtube.com/@...">
+              </div>
+              <button type="submit" class="save-btn">💾 Save Links</button>
+            </form>
+          </div>
+
+          <div class="setting-card">
+            <h3>⚠️ Danger Zone</h3>
+            <button class="delete-btn" onclick="resetAllData()">🗑️ Reset All Data</button>
+            <p class="hint">This will delete all your data. Be careful!</p>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- PROJECT MODAL -->
+  <div id="project-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modal-title">Add New Project</h2>
+        <button class="close-btn" onclick="closeProjectModal()">&times;</button>
+      </div>
+
+      <form class="form-grid" onsubmit="saveProject(event)">
+        <div class="form-group">
+          <label>Project Name</label>
+          <input type="text" id="projectName" placeholder="Project Name" required>
+        </div>
+
+        <div class="form-group">
+          <label>Cover Image URL</label>
+          <input type="text" id="coverImage" placeholder="images/project1/cover.jpeg" required>
+        </div>
+
+        <div class="form-group">
+          <label>Project Description</label>
+          <textarea id="projectDesc" placeholder="Describe your project..." rows="3"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Design Images (comma separated URLs)</label>
+          <textarea id="designImages" placeholder="images/project1/design1.jpeg, images/project1/design2.jpeg, ..." rows="4" required></textarea>
+          <small>💡 Separate each image URL with a comma</small>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="save-btn">💾 Save Project</button>
+          <button type="button" class="cancel-btn" onclick="closeProjectModal()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- SKILL MODAL -->
+  <div id="skill-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Add New Skill</h2>
+        <button class="close-btn" onclick="closeSkillModal()">&times;</button>
+      </div>
+
+      <form class="form-grid" onsubmit="saveSkill(event)">
+        <div class="form-group">
+          <label>Skill Name</label>
+          <input type="text" id="skillName" placeholder="e.g., Branding" required>
+        </div>
+
+        <div class="form-group">
+          <label>Icon/Emoji</label>
+          <input type="text" id="skillIcon" placeholder="🎨" maxlength="5" required>
+        </div>
+
+        <div class="form-group">
+          <label>Description</label>
+          <textarea id="skillDesc" placeholder="Describe this skill..." rows="3" required></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="save-btn">💾 Add Skill</button>
+          <button type="button" class="cancel-btn" onclick="closeSkillModal()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="Dashboard.js"></script>
+</body>
+</html>                      
