@@ -1,267 +1,185 @@
 // ================= LOAD DATA FROM DASHBOARD =================
-// اقرأ البيانات من localStorage (من Dashboard)
 let projects = JSON.parse(localStorage.getItem('portfolioProjects')) || [];
-let skills = JSON.parse(localStorage.getItem('portfolioSkills')) || [];
+let skills   = JSON.parse(localStorage.getItem('portfolioSkills'))   || [];
 let aboutData = JSON.parse(localStorage.getItem('portfolioAbout')) || {
   name: "Rahaf EL-Deeb",
-  bio: "I'm Rahaf, a passionate graphic designer specializing in branding, social media content, and visual identity systems. I transform ideas into memorable visual experiences that help brands connect with people.",
+  bio: "I'm Rahaf, a passionate graphic designer specializing in branding, social media content, and visual identity systems.",
   experience: 3,
   projectsCount: 50,
   clientsCount: 20
 };
 let socialLinks = JSON.parse(localStorage.getItem('portfolioSocial')) || {
   instagram: "https://instagram.com/design.with.rahaf",
-  tiktok: "https://tiktok.com/@design.with.rahaf",
-  youtube: "https://youtube.com/@design.with.rahaf"
+  tiktok:    "https://tiktok.com/@design.with.rahaf",
+  youtube:   "https://youtube.com/@design.with.rahaf"
 };
 
-// If no projects in localStorage, use defaults
-if(projects.length === 0) {
-  projects = [
-    {
-      id: 1,
-      name: "Project 1",
-      cover: "images/project1/cover.jpeg",
-      desc: "Beautiful branding project",
-      images: [
-        "images/project1/design1.jpeg",
-        "images/project1/design2.jpeg",
-        "images/project1/design3.jpeg",
-        "images/project1/design4.jpeg",
-        "images/project1/design5.jpeg"
-      ]
-    },
-    {
-      id: 2,
-      name: "Project 2",
-      cover: "images/project2/cover.jpeg",
-      desc: "Social media campaign",
-      images: [
-        "images/project2/design1.jpeg",
-        "images/project2/design2.jpeg",
-        "images/project2/design3.jpeg",
-        "images/project2/design4.jpeg"
-      ]
-    },
-    {
-      id: 3,
-      name: "Project 3",
-      cover: "images/project3/cover.jpeg",
-      desc: "Logo design collection",
-      images: [
-        "images/project3/design1.jpeg",
-        "images/project3/design2.jpeg",
-        "images/project3/design3.jpeg",
-        "images/project3/design4.jpeg",
-        "images/project3/design5.jpeg",
-        "images/project3/design6.jpeg"
-      ]
-    },
-    {
-      id: 4,
-      name: "Project 4",
-      cover: "images/project4/cover.webp",
-      desc: "Poster design series",
-      images: [
-        "images/project4/design1.webp",
-        "images/project4/design2.webp",
-        "images/project4/design3.webp"
-      ]
-    },
-    {
-      id: 5,
-      name: "Project 5",
-      cover: "images/project5/cover.webp",
-      desc: "Visual identity system",
-      images: [
-        "images/project5/design1.webp",
-        "images/project5/design2.webp",
-        "images/project5/design3.webp",
-        "images/project5/design4.webp",
-        "images/project5/design5.webp"
-      ]
-    },
-    {
-      id: 6,
-      name: "Project 6",
-      cover: "images/project6/cover.jpg",
-      desc: "Branding package",
-      images: [
-        "images/project6/design1.jpg",
-        "images/project6/design2.jpg",
-        "images/project6/design3.jpg",
-        "images/project6/design4.jpg"
-      ]
-    }
-  ];
+// ================= RENDER PROJECTS =================
+function renderProjects() {
+  const grid = document.querySelector('.portfolio-grid');
+  if (!grid) return;
+  grid.innerHTML = '';
+
+  if (projects.length === 0) {
+    grid.innerHTML = `
+      <div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:#E5D4C5;opacity:0.6;">
+        <div style="font-size:48px;margin-bottom:15px;">🎨</div>
+        <p style="font-size:18px;">Projects coming soon...</p>
+      </div>`;
+    return;
+  }
+
+  projects.forEach((project, index) => {
+    const item = document.createElement('div');
+    item.className = 'portfolio-item';
+    item.onclick = () => openGallery(index);
+    item.innerHTML = `
+      <img src="${project.cover}" alt="${project.name}">
+      <div class="overlay">
+        <h3>${project.name}</h3>
+        <p class="project-count">${project.images.length} design${project.images.length !== 1 ? 's' : ''}</p>
+      </div>
+    `;
+    grid.appendChild(item);
+  });
 }
 
-// Update about section with loaded data
+// ================= RENDER SKILLS =================
+function renderSkills() {
+  const grid = document.querySelector('.skills-grid');
+  if (!grid) return;
+  grid.innerHTML = '';
+
+  if (skills.length === 0) {
+    grid.innerHTML = `
+      <div style="grid-column:1/-1;text-align:center;padding:40px;color:#3078A4;opacity:0.6;">
+        <p>Skills coming soon...</p>
+      </div>`;
+    return;
+  }
+
+  skills.forEach(skill => {
+    const card = document.createElement('div');
+    card.className = 'skill-card';
+    card.innerHTML = `<h3>${skill.icon} ${skill.name}</h3><p>${skill.desc}</p>`;
+    grid.appendChild(card);
+  });
+}
+
+// ================= UPDATE ABOUT =================
 function updateAboutSection() {
-  const experElement = document.querySelector('.glass-card:nth-child(3) h3');
-  const clientsElement = document.querySelector('.glass-card:nth-child(2) h3');
-  const projectsElement = document.querySelector('.glass-card:nth-child(1) h3');
-  
-  if(projectsElement) projectsElement.textContent = aboutData.projectsCount + '+';
-  if(clientsElement) clientsElement.textContent = aboutData.clientsCount + '+';
-  if(experElement) experElement.textContent = aboutData.experience + '+';
+  const els = {
+    projects:   document.querySelector('.glass-card:nth-child(1) h3'),
+    clients:    document.querySelector('.glass-card:nth-child(2) h3'),
+    experience: document.querySelector('.glass-card:nth-child(3) h3'),
+  };
+  if (els.projects)   els.projects.textContent   = aboutData.projectsCount + '+';
+  if (els.clients)    els.clients.textContent     = aboutData.clientsCount  + '+';
+  if (els.experience) els.experience.textContent  = aboutData.experience    + '+';
+
+  const bioEl = document.querySelector('.about-left p');
+  if (bioEl && aboutData.bio) bioEl.textContent = aboutData.bio;
 }
 
-// Update social links
+// ================= UPDATE SOCIAL LINKS =================
 function updateSocialLinks() {
-  const instaBtn = document.querySelector('.btn-instagram');
-  const tiktokBtn = document.querySelector('.btn-tiktok');
-  const youtubeBtn = document.querySelector('.btn-youtube');
-  
-  if(instaBtn) instaBtn.href = socialLinks.instagram;
-  if(tiktokBtn) tiktokBtn.href = socialLinks.tiktok;
-  if(youtubeBtn) youtubeBtn.href = socialLinks.youtube;
+  const map = {
+    '.btn-instagram': socialLinks.instagram,
+    '.btn-tiktok':    socialLinks.tiktok,
+    '.btn-youtube':   socialLinks.youtube,
+  };
+  Object.entries(map).forEach(([sel, href]) => {
+    const el = document.querySelector(sel);
+    if (el && href) el.href = href;
+  });
 }
 
-// ================= GALLERY SYSTEM =================
+// ================= GALLERY =================
 let currentProjectIndex = 0;
-let currentImageIndex = 0;
+let currentImageIndex   = 0;
 
 function openGallery(projectIndex) {
   currentProjectIndex = projectIndex;
-  currentImageIndex = 0;
-  
-  const modal = document.getElementById('gallery-modal');
-  modal.classList.add('active');
-  
+  currentImageIndex   = 0;
+  document.getElementById('gallery-modal').classList.add('active');
   displayImage();
   document.body.style.overflow = 'hidden';
 }
 
 function closeGallery() {
-  const modal = document.getElementById('gallery-modal');
-  modal.classList.remove('active');
+  document.getElementById('gallery-modal').classList.remove('active');
   document.body.style.overflow = 'auto';
 }
 
 function displayImage() {
   const project = projects[currentProjectIndex];
-  const image = project.images[currentImageIndex];
-  const totalImages = project.images.length;
-  
-  document.getElementById('gallery-image').src = image;
-  document.getElementById('image-counter').textContent = 
-    `${currentImageIndex + 1} / ${totalImages}`;
+  document.getElementById('gallery-image').src = project.images[currentImageIndex];
+  document.getElementById('image-counter').textContent =
+    `${currentImageIndex + 1} / ${project.images.length}`;
 }
 
 function nextImage() {
-  const project = projects[currentProjectIndex];
-  
-  if(currentImageIndex < project.images.length - 1) {
-    currentImageIndex++;
-  } else {
-    currentImageIndex = 0; // Loop back to first
-  }
-  
+  const len = projects[currentProjectIndex].images.length;
+  currentImageIndex = (currentImageIndex + 1) % len;
   displayImage();
 }
 
 function prevImage() {
-  const project = projects[currentProjectIndex];
-  
-  if(currentImageIndex > 0) {
-    currentImageIndex--;
-  } else {
-    currentImageIndex = project.images.length - 1; // Loop to last
-  }
-  
+  const len = projects[currentProjectIndex].images.length;
+  currentImageIndex = (currentImageIndex - 1 + len) % len;
   displayImage();
 }
 
-// Keyboard navigation
-document.addEventListener('keydown', (e) => {
-  const modal = document.getElementById('gallery-modal');
-  
-  if(modal.classList.contains('active')) {
-    if(e.key === 'ArrowRight') nextImage();
-    if(e.key === 'ArrowLeft') prevImage();
-    if(e.key === 'Escape') closeGallery();
-  }
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('gallery-modal').classList.contains('active')) return;
+  if (e.key === 'ArrowRight') nextImage();
+  if (e.key === 'ArrowLeft')  prevImage();
+  if (e.key === 'Escape')     closeGallery();
 });
 
-// Close gallery when clicking outside the image
-document.getElementById('gallery-modal')?.addEventListener('click', (e) => {
-  if(e.target.id === 'gallery-modal') {
-    closeGallery();
-  }
+document.getElementById('gallery-modal')?.addEventListener('click', e => {
+  if (e.target.id === 'gallery-modal') closeGallery();
 });
 
-// ================= ORIGINAL FUNCTIONALITY =================
-
-// Smooth scroll navigation
+// ================= NAV & SCROLL =================
 document.querySelectorAll('nav a').forEach(anchor => {
   anchor.addEventListener('click', function(e) {
     e.preventDefault();
     const target = document.querySelector(this.getAttribute('href'));
-    if(target) {
-      target.scrollIntoView({ behavior: 'smooth' });
-    }
+    if (target) target.scrollIntoView({ behavior: 'smooth' });
   });
 });
 
-// Cursor glow effect
-const cursor = document.querySelector('.cursor-glow');
-
-document.addEventListener('mousemove', (e) => {
-  cursor.style.left = e.clientX + 'px';
-  cursor.style.top = e.clientY + 'px';
-});
-
-// Hide cursor glow on mobile
-if(window.innerWidth < 768) {
-  cursor.style.display = 'none';
-}
-
-// Scroll reveal animation
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if(entry.isIntersecting) {
-      entry.target.classList.add('active');
-    }
-  });
-}, { threshold: 0.2 });
-
-document.querySelectorAll('.skill-card, .glass-card').forEach(el => {
-  observer.observe(el);
-});
-
-// Add active state to nav links based on scroll position
 window.addEventListener('scroll', () => {
   let current = '';
-  
   document.querySelectorAll('section').forEach(section => {
-    const sectionTop = section.offsetTop;
-    if(pageYOffset >= sectionTop - 200) {
-      current = section.getAttribute('id');
-    }
+    if (pageYOffset >= section.offsetTop - 200) current = section.getAttribute('id');
   });
-
   document.querySelectorAll('nav a').forEach(link => {
     link.classList.remove('active');
-    if(link.getAttribute('href').slice(1) === current) {
-      link.classList.add('active');
-    }
+    if (link.getAttribute('href').slice(1) === current) link.classList.add('active');
   });
 });
 
-// Social media button tracking (optional)
-document.querySelectorAll('.social-btn').forEach(btn => {
-  btn.addEventListener('click', function() {
-    console.log('Clicked social button:', this.querySelector('svg').parentElement.textContent.trim());
-  });
+// ================= CURSOR GLOW =================
+const cursor = document.querySelector('.cursor-glow');
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top  = e.clientY + 'px';
 });
+if (window.innerWidth < 768) cursor.style.display = 'none';
 
-// Page load initialization
+// ================= SCROLL REVEAL =================
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('active'); });
+}, { threshold: 0.2 });
+document.querySelectorAll('.skill-card, .glass-card').forEach(el => observer.observe(el));
+
+// ================= INIT =================
 window.addEventListener('load', () => {
   document.body.classList.add('loaded');
+  renderProjects();
+  renderSkills();
   updateAboutSection();
   updateSocialLinks();
-  console.log('Portfolio loaded with data from Dashboard! 📊');
-  console.log('Projects:', projects);
-  console.log('Skills:', skills);
 });

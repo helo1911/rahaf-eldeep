@@ -11,10 +11,8 @@
 <body>
 
   <script>
-    // ======= PASSWORD PROTECTION =======
-    const correctPassword = "rahaf159"; // غيري الباسورد
+    const correctPassword = "rahaf159";
     const passwordAttempt = prompt("🔐 Enter Admin Password:");
-    
     if(passwordAttempt !== correctPassword) {
       alert("❌ Wrong password! Access denied.");
       window.location.href = "index.html";
@@ -22,7 +20,6 @@
   </script>
 
   <div class="dashboard-container">
-  
 
     <!-- SIDEBAR -->
     <aside class="sidebar">
@@ -30,18 +27,10 @@
         <h2>📊 Dashboard</h2>
       </div>
       <nav class="sidebar-nav">
-        <button class="nav-btn active" onclick="showTab('projects')">
-          🎨 Projects
-        </button>
-        <button class="nav-btn" onclick="showTab('about')">
-          👤 About
-        </button>
-        <button class="nav-btn" onclick="showTab('skills')">
-          ⚡ Skills
-        </button>
-        <button class="nav-btn" onclick="showTab('settings')">
-          ⚙️ Settings
-        </button>
+        <button class="nav-btn active" onclick="showTab('projects')">🎨 Projects</button>
+        <button class="nav-btn" onclick="showTab('about')">👤 About</button>
+        <button class="nav-btn" onclick="showTab('skills')">⚡ Skills</button>
+        <button class="nav-btn" onclick="showTab('settings')">⚙️ Settings</button>
       </nav>
     </aside>
 
@@ -63,7 +52,6 @@
           <h2>My Projects</h2>
           <button class="add-btn" onclick="openProjectModal()">+ Add Project</button>
         </div>
-
         <div class="projects-list">
           <div id="projects-container"></div>
         </div>
@@ -71,9 +59,7 @@
 
       <!-- ABOUT TAB -->
       <section id="about-tab" class="tab-content">
-        <div class="section-header">
-          <h2>About Section</h2>
-        </div>
+        <div class="section-header"><h2>About Section</h2></div>
         <form class="form-grid" onsubmit="saveAbout(event)">
           <div class="form-group">
             <label>Full Name</label>
@@ -110,9 +96,7 @@
 
       <!-- SETTINGS TAB -->
       <section id="settings-tab" class="tab-content">
-        <div class="section-header">
-          <h2>Settings</h2>
-        </div>
+        <div class="section-header"><h2>Settings</h2></div>
         <div class="settings-grid">
           <div class="setting-card">
             <h3>🔗 Social Links</h3>
@@ -132,7 +116,6 @@
               <button type="submit" class="save-btn">💾 Save Links</button>
             </form>
           </div>
-
           <div class="setting-card">
             <h3>⚠️ Danger Zone</h3>
             <button class="delete-btn" onclick="resetAllData()">🗑️ Reset All Data</button>
@@ -153,14 +136,10 @@
       </div>
 
       <form class="form-grid" onsubmit="saveProject(event)">
+
         <div class="form-group">
           <label>Project Name</label>
           <input type="text" id="projectName" placeholder="Project Name" required>
-        </div>
-
-        <div class="form-group">
-          <label>Cover Image URL</label>
-          <input type="text" id="coverImage" placeholder="images/project1/cover.jpeg" required>
         </div>
 
         <div class="form-group">
@@ -168,16 +147,39 @@
           <textarea id="projectDesc" placeholder="Describe your project..." rows="3"></textarea>
         </div>
 
-        <div class="form-group">
-          <label>Design Images (comma separated URLs)</label>
-          <textarea id="designImages" placeholder="images/project1/design1.jpeg, images/project1/design2.jpeg, ..." rows="4" required></textarea>
-          <small>💡 Separate each image URL with a comma</small>
+        <!-- COVER IMAGE UPLOAD -->
+        <div class="form-group" style="grid-column: 1 / -1;">
+          <label>🖼️ Cover Image</label>
+          <div class="upload-area" onclick="document.getElementById('coverImageFile').click()">
+            <label class="upload-label">
+              <input type="file" id="coverImageFile" accept="image/*" onchange="handleCoverUpload(this)">
+              <span style="font-size:32px;">📁</span><br>
+              <span style="color:#090087;font-weight:600;">Click to upload cover image</span><br>
+              <small style="color:#3078A4;">JPG, PNG, WEBP — Max 2MB</small>
+            </label>
+          </div>
+          <div id="cover-preview"></div>
+        </div>
+
+        <!-- DESIGN IMAGES UPLOAD -->
+        <div class="form-group" style="grid-column: 1 / -1;">
+          <label>🎨 Design Images <small style="color:#3078A4;">(you can select multiple)</small></label>
+          <div class="upload-area" onclick="document.getElementById('designImagesFile').click()">
+            <label class="upload-label">
+              <input type="file" id="designImagesFile" accept="image/*" multiple onchange="handleDesignUpload(this)">
+              <span style="font-size:32px;">🗂️</span><br>
+              <span style="color:#090087;font-weight:600;">Click to upload design images</span><br>
+              <small style="color:#3078A4;">Select multiple files at once — Max 2MB each</small>
+            </label>
+          </div>
+          <div id="designs-preview"></div>
         </div>
 
         <div class="form-actions">
           <button type="submit" class="save-btn">💾 Save Project</button>
           <button type="button" class="cancel-btn" onclick="closeProjectModal()">Cancel</button>
         </div>
+
       </form>
     </div>
   </div>
@@ -189,23 +191,19 @@
         <h2>Add New Skill</h2>
         <button class="close-btn" onclick="closeSkillModal()">&times;</button>
       </div>
-
       <form class="form-grid" onsubmit="saveSkill(event)">
         <div class="form-group">
           <label>Skill Name</label>
           <input type="text" id="skillName" placeholder="e.g., Branding" required>
         </div>
-
         <div class="form-group">
           <label>Icon/Emoji</label>
           <input type="text" id="skillIcon" placeholder="🎨" maxlength="5" required>
         </div>
-
         <div class="form-group">
           <label>Description</label>
           <textarea id="skillDesc" placeholder="Describe this skill..." rows="3" required></textarea>
         </div>
-
         <div class="form-actions">
           <button type="submit" class="save-btn">💾 Add Skill</button>
           <button type="button" class="cancel-btn" onclick="closeSkillModal()">Cancel</button>
@@ -216,4 +214,4 @@
 
   <script src="Dashboard.js"></script>
 </body>
-</html>                      
+</html>
